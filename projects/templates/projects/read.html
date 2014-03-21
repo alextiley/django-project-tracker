@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Projects</title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<h1>Project List</h1>
+		
+		{% if projects %}
+
+			<div class="tools">
+				{% if not showClosed %}
+					<a href="{% url 'projects:read' %}?showClosed=true">Show Closed Projects</a>
+				{% else %}
+					<a href="{% url 'projects:read' %}">Hide Closed Projects</a>
+				{% endif %}
+			</div>
+
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Deployment Date</th>
+						<th>Closed</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for project in projects %}
+						<tr>
+							<td>{{project.id}}</td>
+							<td>{{project.project_name}}</td>
+							<td>{{project.deployment_date}}</td>
+							<td>{{project.is_closed}}</td>
+							<td><a href="{% url 'projects:update' project.id %}">Edit</a></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>There are no projects to display.</p>
+		{% endif %}
+
+		<a href="{% url 'projects:create' %}" class="button">Add a project</a>
+	</body>
+</html>
+
+<style>
+	.tools, table {margin-bottom:20px;}
+	td {padding:10px 30px;}
+	th {border-bottom:1px solid #ddd;}
+	tbody tr:nth-child(2n+2) {background:#eee;}
+</style>

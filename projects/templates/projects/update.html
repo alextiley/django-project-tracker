@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Edit project: {{project.project_name}}</title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<h1>Edit project: {{project.project_name}}</h1>
+		
+		{% if error %}
+			<div class="alert">
+				<p>{{error}}</p>
+			</div>
+		{% endif %}
+
+		<form action="{% url 'projects:update' project.id %}" method="post">
+			<fieldset>
+				<legend>Please complete the fields below:</legend>
+
+				{% csrf_token %}
+
+				<div class="element">
+					<label for="project_name">Project Name</label>
+					<input type="text" name="project_name" id="project_name" value="{{project.project_name}}" />
+				</div>
+
+				<div class="element">
+					<label for="deployment_date">Deployment Date</label>
+					<input type="text" name="deployment_date" id="deployment_date" value="{{project.deployment_date}}" />
+				</div>
+
+				<div class="element">
+					<label for="is_closed">Is Closed</label>
+					<input type="checkbox" name="is_closed" id="is_closed" value="true" {% if project.is_closed %}checked="checked"{% endif %}/>
+				</div>
+
+				<button type="submit">Save Changes</button>
+				<a href="{% url 'projects:read' %}">Back to all projects</a>
+			</fieldset>
+		</form>
+
+	</body>
+</html>
+
+<style>
+	legend {margin-bottom:20px;}
+	.element {margin-bottom:15px;}
+	.element label {display:inline-block; width:150px;}
+	.element input[type=text] {width:250px;}
+	.element input[type=checkbox] {margin-left:0px;}
+	button {height:28px; width:100px; margin-right:10px;}
+</style>
