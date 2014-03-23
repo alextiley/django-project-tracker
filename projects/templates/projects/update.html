@@ -30,12 +30,12 @@
 				</div>
 
 				<div class="element">
-					<label for="is_closed">Is Closed</label>
+					<label for="is_closed">Project Closed?</label>
 					<input type="checkbox" name="is_closed" id="is_closed" value="true" {% if project.is_closed %}checked="checked"{% endif %}/>
 				</div>
 
 				<button type="submit">Save Changes</button>
-				<a href="{% url 'projects:read' %}">Back to all projects</a>
+				<a href="{% url 'projects:list' %}">Back to all projects</a>
 			</fieldset>
 		</form>
 

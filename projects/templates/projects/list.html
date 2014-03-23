@@ -11,9 +11,9 @@
 
 			<div class="tools">
 				{% if not showClosed %}
-					<a href="{% url 'projects:read' %}?showClosed=true">Show Closed Projects</a>
+					<a href="{% url 'projects:list' %}?showClosed=true">Show Closed Projects</a>
 				{% else %}
-					<a href="{% url 'projects:read' %}">Hide Closed Projects</a>
+					<a href="{% url 'projects:list' %}">Hide Closed Projects</a>
 				{% endif %}
 			</div>
 

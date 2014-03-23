@@ -1,3 +1,7 @@
 from django.test import TestCase
 
-# Create your tests here.
+from projects.models import Project
+
+class ProjectViewTests(TestCase):
+
+	def 

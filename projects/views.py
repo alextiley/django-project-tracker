@@ -1,41 +1,57 @@
-from projects.models import Project
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import View
+import logging
 
-def create(request):
-	return render(request, 'projects/create.html')
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views import generic
 
+from projects.models import Project, ProjectForm
 
+log = logging.getLogger(__name__)
 
-def read(request):
+class CreateView(generic.View):
 
-	showClosed = bool(request.GET.get('showClosed'))
-	projects = Project.objects.order_by('deployment_date')
+	def get(self, request):
+		return render(request, 'projects/create.html')
 
-	if not showClosed:
-		projects = projects.exclude(is_closed=True)
+	def post(self, request):
 
-	return render(request, 'projects/read.html', {
-		'projects': projects,
-		'showClosed': showClosed
-	})
+		form = ProjectForm(request.POST)
 
+		if form.is_valid():
+			form.save()
+			redirect('projects/list.html')
 
-def update(request, project_id):
-
-	project = get_object_or_404(Project, pk = project_id)
-
-	return render(request, 'projects/update.html', {
-		'project': project
-	})
+		return render(request, 'projects/create.html', {
+			'project': form
+		})
 
 
+class ListView(generic.View):
 
-def delete(request, project_id):
-	return render(request, 'projects/delete.html')
+	def get(self, request):
+
+		showClosed = bool(request.GET.get('showClosed'))
+		projects = Project.objects.order_by('deployment_date')
+
+		if not showClosed:
+			projects = projects.exclude(is_closed=True)
+
+		return render(request, 'projects/list.html', {
+			'projects': projects,
+			'showClosed': showClosed
+		})
+
+class UpdateView(generic.View):
+
+	def get(self, request, project_id):
+
+		project = get_object_or_404(Project, pk = project_id)
+
+		return render(request, 'projects/update.html', {
+			'project': project
+		})
 
 
+class DeleteView(generic.View):
 
-#class ProjectListView(View):
-#	def get(request):
-#		pass
+	def get(self, request, project_id):
+		return render(request, 'projects/delete.html')
