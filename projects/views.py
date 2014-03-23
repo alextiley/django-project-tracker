@@ -3,7 +3,8 @@ import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 
-from projects.models import Project, ProjectForm
+from projects.models import Project
+from projects.forms import ProjectForm
 
 log = logging.getLogger(__name__)
 
