@@ -1,46 +1,42 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<title>Create a new project</title>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
-	</head>
-	<body>
-		<div class="container">
-			<h1>Create a new project</h1>
+{% extends "projects/layouts/generic.html" %}
+
+{% block title %}Create a new project{% endblock %}
+
+{% block main %}
+
+	<h1>Create a new project</h1>
+	
+	{% include "projects/messages.html" %}
+
+	<form action="{% url 'projects:create' %}" method="post">
+		<fieldset>
+			<legend>Please complete the fields below:</legend>
+
+			{% csrf_token %}
 			
-			{% include "projects/messages.html" %}
+			{{ form.non_field_errors }}
 
-			<form action="{% url 'projects:create' %}" method="post">
-				<fieldset>
-					<legend>Please complete the fields below:</legend>
+			<div class="element">
+				{{ form.name.errors }}
+				<label for="id_name">Project Name:</label>
+				{{ form.name }}
+			</div>
 
-					{% csrf_token %}
-					
-					{{ form.non_field_errors }}
+			<div class="element">
+				{{ form.deployment_date.errors }}
+				<label for="id_deployment_date">Deployment Date:</label>
+				{{ form.deployment_date }}
+			</div>
 
-					<div class="element">
-						{{ form.name.errors }}
-						<label for="id_name">Project Name:</label>
-						{{ form.name }}
-					</div>
+			<div class="element">
+				{{ form.deployment_time.errors }}
+				<label for="id_deployment_time">Deployment Time:</label>
+				{{ form.deployment_time }}
+			</div>
 
-					<div class="element">
-						{{ form.deployment_date.errors }}
-						<label for="id_deployment_date">Deployment Date:</label>
-						{{ form.deployment_date }}
-					</div>
+			<button type="submit">Create project</button>
+			<a href="{% url 'projects:list' %}">Back to all projects</a>
+		</fieldset>
+	</form>
 
-					<div class="element">
-						{{ form.deployment_time.errors }}
-						<label for="id_deployment_time">Deployment Time:</label>
-						{{ form.deployment_time }}
-					</div>
-
-					<button type="submit">Create project</button>
-					<a href="{% url 'projects:list' %}">Back to all projects</a>
-				</fieldset>
-			</form>
-		</div>
-	</body>
-</html>
+{% endblock %}

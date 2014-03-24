@@ -1,59 +1,55 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<title>Update project {{project.name}}</title>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
-	</head>
-	<body>
-		<div class="container">
-			<h1>Update project {{project.name}}</h1>
+{% extends "projects/layouts/generic.html" %}
+
+{% block title %}Update {{ form.name.value }}{% endblock %}
+
+{% block main %}
+
+	<h1>Update Project: {{ form.name.value }}</h1>
+	
+	{% include "projects/messages.html" %}
+
+	<form action="{% url 'projects:update' project_id %}" method="post">
+		<fieldset>
+			<legend>Please complete the fields below:</legend>
+
+			{% csrf_token %}
 			
-			{% include "projects/messages.html" %}
+			{{ form.non_field_errors }}
 
-			<form action="{% url 'projects:update' project_id %}" method="post">
-				<fieldset>
-					<legend>Please complete the fields below:</legend>
+			<div class="element">
+				<label for="id_name">Project Name:</label>
+				{{ form.name }}
+				{{ form.name.errors }}
+			</div>
 
-					{% csrf_token %}
-					
-					{{ form.non_field_errors }}
+			<div class="element">
+				<label for="id_deployment_date">Deployment Date:</label>
+				{{ form.deployment_date }}
+				{{ form.deployment_date.errors }}
+			</div>
 
-					<div class="element">
-						{{ form.name.errors }}
-						<label for="id_name">Project Name:</label>
-						{{ form.name }}
-					</div>
+			<div class="element">
+				<label for="id_deployment_time">Deployment Time:</label>
+				{{ form.deployment_time }}
+				{{ form.deployment_time.errors }}
+			</div>
 
-					<div class="element">
-						{{ form.deployment_date.errors }}
-						<label for="id_deployment_date">Deployment Date:</label>
-						{{ form.deployment_date }}
-					</div>
+			<div class="element">
+				<label for="id_is_complete">Is Project Closed?</label>
+				{{ form.is_complete }}
+			</div>
 
-					<div class="element">
-						{{ form.deployment_time.errors }}
-						<label for="id_deployment_time">Deployment Time:</label>
-						{{ form.deployment_time }}
-					</div>
+			<button type="submit" class="btn btn-primary">Save Changes</button>
+			<a href="{% url 'projects:list' %}">Back to all projects</a>
+		</fieldset>
+	</form>
 
-					<div class="element">
-						<label for="id_is_complete">Is Project Closed?</label>
-						{{ form.is_complete }}
-					</div>
+	<form action="{% url 'projects:delete' project_id %}" method="post">
+		<fieldset>
+			<legend>Delete this project</legend>
+			{% csrf_token %}
+			<button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project?');">Delete Project</button>
+		</fieldset>
+	</form>
 
-					<button type="submit">Save Changes</button>
-					<a href="{% url 'projects:list' %}">Back to all projects</a>
-				</fieldset>
-			</form>
-
-			<form action="{% url 'projects:delete' project_id %}" method="post">
-				<fieldset>
-					<legend>Delete this project</legend>
-					{% csrf_token %}
-					<button type="submit">Delete Project</button>
-				</fieldset>
-			</form>
-		</div>
-	</body>
-</html>
+{% endblock %}

@@ -1,0 +1,9 @@
+/* Reset */
+ul {padding:0;}
+li {list-style-type:none;}
+
+/* Base styles */
+h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
+
+/* Faux tables - used to replace tables, adding a responsive dimension */
+.faux-table .faux-table-head {border-bottom:1px solid #eee; padding-bottom:5px; margin-bottom:10px;}

@@ -1,55 +1,49 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<title>Projects</title>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
-	</head>
-	<body>
-		<div class="container">
-			<h1>Project List</h1>
+{% extends "projects/layouts/generic.html" %}
 
-			{% include "projects/messages.html" %}
+{% block title %}List of projects{% endblock %}
 
-			{% if projects %}
+{% block main %}
+	
+	<h1>Project List</h1>
 
-				<table>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>Deployment Date</th>
-							<th>Deployment Time</th>
-							<th>Closed</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for project in projects %}
-							<tr>
-								<td>{{ project.id }}</td>
-								<td>{{ project.name }}</td>
-								<td>{{ project.deployment_date|date:"l jS F, Y" }}</td>
-								<td>{{ project.deployment_date|date:"h:s A" }}</td>
-								<td>{{ project.is_complete }}</td>
-								<td><a href="{% url 'projects:update' project.id %}">Edit</a></td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			{% else %}
-				<p>There are no projects to display.</p>
+	{% include "projects/messages.html" %}
+
+	{% if open_projects or closed_projects and show_all %}
+
+		<p>Currently displaying 
+			{{ open_projects|length }} open project{% if open_projects|length != 1 %}s{% endif %}{% if not show_all %}.{% endif %}
+			{% if show_all %}
+				and {{ closed_projects|length }} closed project{% if closed_projects|length != 1 %}s{% endif %}.
 			{% endif %}
+		</p>
 
-			<div class="tools">
-				<a href="{% url 'projects:create' %}" class="button">Add a project</a>
-
-				{% if not showClosed %}
-					<a href="{% url 'projects:list' %}?showClosed=true">Show Closed Projects</a>
-				{% else %}
-					<a href="{% url 'projects:list' %}">Hide Closed Projects</a>
-				{% endif %}
+		<div class="faux-table big-margin">
+			<div class="faux-table-head row">
+				<div class="col-xs-2 name">Name</div>
+				<div class="col-xs-5 date">Deploy Date</div>
+				<div class="col-xs-2 countdown">Countdown</div>
 			</div>
+			<ul class="faux-table-body projects">
+				{% for project in open_projects %}
+					{% include "projects/project-list-item.html" with project_type="open" %}
+				{% endfor %}
+				{% for project in closed_projects %}
+					{% include "projects/project-list-item.html" with project_type="closed" %}
+				{% endfor %}	
+			</ul>
 		</div>
-	</body>
-</html>
+	{% else %}
+		<p>There are no projects to display.</p>
+	{% endif %}
+
+	<div class="tools">
+		<a href="{% url 'projects:create' %}" class="btn btn-primary">Add a project</a>
+
+		{% if show_all %}
+			<a href="{% url 'projects:list' %}" class="btn btn-default">Hide Closed Projects</a>
+		{% else %}
+			<a href="{% url 'projects:list' %}?show_all=true" class="btn btn-default">Show Closed Projects</a>
+		{% endif %}
+	</div>
+
+{% endblock %}

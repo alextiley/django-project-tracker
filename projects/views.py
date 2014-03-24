@@ -43,15 +43,19 @@ class CreateView(View):
 
 class ListView(View):
 	def get(self, request):
-		showClosed = bool(request.GET.get('showClosed'))
+		
+		show_all = bool(request.GET.get('show_all'))
 		projects = Project.objects.order_by('deployment_date')
+		open_projects = projects.exclude(is_complete = True)
+		closed_projects = list()
 
-		if not showClosed:
-			projects = projects.exclude(is_complete=True)
+		if show_all:
+			closed_projects = projects.exclude(is_complete = False)
 
 		return render(request, 'projects/list.html', {
-			'projects': projects,
-			'showClosed': showClosed
+			'open_projects': open_projects,
+			'closed_projects': closed_projects,
+			'show_all': show_all
 		})
 
 
