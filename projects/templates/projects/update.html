@@ -3,33 +3,58 @@
 	<head>
 		<title>Update project {{project.name}}</title>
 		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
 	</head>
 	<body>
-		<h1>Update project {{project.name}}</h1>
-		
-		{% include "projects/messages.html" %}
+		<div class="container">
+			<h1>Update project {{project.name}}</h1>
+			
+			{% include "projects/messages.html" %}
 
-		<form action="{% url 'projects:update' project_id %}" method="post">
-			<fieldset>
-				<legend>Please complete the fields below:</legend>
+			<form action="{% url 'projects:update' project_id %}" method="post">
+				<fieldset>
+					<legend>Please complete the fields below:</legend>
 
-				{% csrf_token %}
-				
-				{{form}}
+					{% csrf_token %}
+					
+					{{ form.non_field_errors }}
 
-				<button type="submit">Save Changes</button>
-				<a href="{% url 'projects:list' %}">Back to all projects</a>
-			</fieldset>
-		</form>
+					<div class="element">
+						{{ form.name.errors }}
+						<label for="id_name">Project Name:</label>
+						{{ form.name }}
+					</div>
 
-		<form action="{% url 'projects:delete' project_id %}" method="post">
-			<fieldset>
-				<legend>Delete this project</legend>
-				{% csrf_token %}
-				<button type="submit">Delete Project</button>
-			</fieldset>
-		</form>
-		
+					<div class="element">
+						{{ form.deployment_date.errors }}
+						<label for="id_deployment_date">Deployment Date:</label>
+						{{ form.deployment_date }}
+					</div>
+
+					<div class="element">
+						{{ form.deployment_time.errors }}
+						<label for="id_deployment_time">Deployment Time:</label>
+						{{ form.deployment_time }}
+					</div>
+
+					<div class="element">
+						{{ form.is_complete.errors }}
+						<label for="id_is_complete">Is Project Closed?</label>
+						{{ form.is_complete }}
+					</div>
+
+					<button type="submit">Save Changes</button>
+					<a href="{% url 'projects:list' %}">Back to all projects</a>
+				</fieldset>
+			</form>
+
+			<form action="{% url 'projects:delete' project_id %}" method="post">
+				<fieldset>
+					<legend>Delete this project</legend>
+					{% csrf_token %}
+					<button type="submit">Delete Project</button>
+				</fieldset>
+			</form>
+		</div>
 	</body>
 </html>
-
