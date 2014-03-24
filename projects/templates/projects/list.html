@@ -19,6 +19,7 @@
 							<th>ID</th>
 							<th>Name</th>
 							<th>Deployment Date</th>
+							<th>Deployment Time</th>
 							<th>Closed</th>
 							<th></th>
 						</tr>
@@ -26,10 +27,11 @@
 					<tbody>
 						{% for project in projects %}
 							<tr>
-								<td>{{project.id}}</td>
-								<td>{{project.name}}</td>
-								<td>{{project.deployment_date}}</td>
-								<td>{{project.is_complete}}</td>
+								<td>{{ project.id }}</td>
+								<td>{{ project.name }}</td>
+								<td>{{ project.deployment_date|date:"l jS F, Y" }}</td>
+								<td>{{ project.deployment_date|date:"h:s A" }}</td>
+								<td>{{ project.is_complete }}</td>
 								<td><a href="{% url 'projects:update' project.id %}">Edit</a></td>
 							</tr>
 						{% endfor %}
