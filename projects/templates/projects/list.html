@@ -8,16 +8,8 @@
 		<h1>Project List</h1>
 
 		{% include "projects/messages.html" %}
-		
-		{% if projects %}
 
-			<div class="tools">
-				{% if not showClosed %}
-					<a href="{% url 'projects:list' %}?showClosed=true">Show Closed Projects</a>
-				{% else %}
-					<a href="{% url 'projects:list' %}">Hide Closed Projects</a>
-				{% endif %}
-			</div>
+		{% if projects %}
 
 			<table>
 				<thead>
@@ -45,7 +37,16 @@
 			<p>There are no projects to display.</p>
 		{% endif %}
 
-		<a href="{% url 'projects:create' %}" class="button">Add a project</a>
+		<div class="tools">
+			<a href="{% url 'projects:create' %}" class="button">Add a project</a>
+
+			{% if not showClosed %}
+				<a href="{% url 'projects:list' %}?showClosed=true">Show Closed Projects</a>
+			{% else %}
+				<a href="{% url 'projects:list' %}">Hide Closed Projects</a>
+			{% endif %}
+		</div>
+
 	</body>
 </html>
 
@@ -54,4 +55,5 @@
 	td {padding:10px 30px;}
 	th {border-bottom:1px solid #ddd;}
 	tbody tr:nth-child(2n+2) {background:#eee;}
+	.button {margin-right:5px;}
 </style>

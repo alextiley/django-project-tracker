@@ -11,12 +11,23 @@ from projects.forms import ProjectForm
 log = logging.getLogger(__name__)
 
 
+def render_create(request, form):
+	return render(request, 'projects/create.html', {
+		'form': form
+	})
+
+
+def render_update(request, form, project_id):
+	return render(request, 'projects/update.html', {
+		'form': form,
+		'project_id': project_id
+	})
+
+
 class CreateView(View):
 
 	def get(self, request):
-		return render(request, 'projects/create.html', {
-			'form': ProjectForm()
-		})
+		return render_create(request, ProjectForm())
 
 	def post(self, request):
 		form = ProjectForm(request.POST)
@@ -27,9 +38,7 @@ class CreateView(View):
 			return redirect('/projects')
 		else:
 			messages.error(request, 'error.form.invalid')
-			return render(request, 'projects/create.html', {
-				'form': form
-			})
+			return render_create(request, form)
 
 
 class ListView(View):
@@ -50,11 +59,7 @@ class UpdateView(View):
 	def get(self, request, project_id):
 		project = get_object_or_404(Project, pk = project_id)
 		form = ProjectForm(instance = project)
-
-		return render(request, 'projects/update.html', {
-			'form': form,
-			'project_id': project_id
-		})
+		return render_update(request, form, project_id)
 
 	def post(self, request, project_id):
 		project = Project.objects.get(pk = project_id)
@@ -64,10 +69,7 @@ class UpdateView(View):
 			messages.success(request, 'success.project.updated')
 			return redirect('/projects/update/' + project_id)
 		else:
-			return render(request, 'projects/update.html', {
-				'form': form,
-				'project_id': project_id
-			})
+			return render_update(request, form, project_id)
 
 
 class DeleteView(View):
