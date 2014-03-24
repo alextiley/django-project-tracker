@@ -1,17 +1,13 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Create Project</title>
+		<title>Create a new project</title>
 		<meta charset="utf-8" />
 	</head>
 	<body>
 		<h1>Create a new project</h1>
 		
-		{% if error %}
-			<div class="alert">
-				<p>{{error}}</p>
-			</div>
-		{% endif %}
+		{% include "projects/messages.html" %}
 
 		<form action="{% url 'projects:create' %}" method="post">
 			<fieldset>
@@ -19,22 +15,21 @@
 
 				{% csrf_token %}
 				
+				{{ form.non_field_errors }}
+
 				<div class="element">
-					<label for="project_name">Project Name</label>
-					<input type="text" name="project_name" id="project_name" value="{{project.project_name}}" />
+					{{ form.project_name.errors }}
+					<label for="id_project_name">Project Name:</label>
+					{{ form.project_name }}
 				</div>
 
 				<div class="element">
-					<label for="deployment_date">Deployment Date</label>
-					<input type="text" name="deployment_date" id="deployment_date" value="{{project.deployment_date}}" />
+					{{ form.deployment_date.errors }}
+					<label for="id_deployment_date">Deployment Date:</label>
+					{{ form.deployment_date }}
 				</div>
 
-				<div class="element">
-					<label for="is_closed">Project Closed?</label>
-					<input type="checkbox" name="is_closed" id="is_closed" value="true" {% if project.is_closed %}checked="checked"{% endif %}/>
-				</div>
-
-				<button type="submit">Save Changes</button>
+				<button type="submit">Create project</button>
 				<a href="{% url 'projects:list' %}">Back to all projects</a>
 			</fieldset>
 		</form>
@@ -42,11 +37,3 @@
 	</body>
 </html>
 
-<style>
-	legend {margin-bottom:20px;}
-	.element {margin-bottom:15px;}
-	.element label {display:inline-block; width:150px;}
-	.element input[type=text] {width:250px;}
-	.element input[type=checkbox] {margin-left:0px;}
-	button {height:28px; width:100px; margin-right:10px;}
-</style>
