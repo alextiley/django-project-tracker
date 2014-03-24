@@ -1,6 +1,6 @@
 import logging
 
-from django.views import generic
+from django.views.generic import View
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,7 +10,8 @@ from projects.forms import ProjectForm
 
 log = logging.getLogger(__name__)
 
-class CreateView(generic.View):
+
+class CreateView(View):
 
 	def get(self, request):
 		return render(request, 'projects/create.html', {
@@ -31,7 +32,7 @@ class CreateView(generic.View):
 			})
 
 
-class ListView(generic.View):
+class ListView(View):
 	def get(self, request):
 		showClosed = bool(request.GET.get('showClosed'))
 		projects = Project.objects.order_by('deployment_date')
@@ -44,7 +45,8 @@ class ListView(generic.View):
 			'showClosed': showClosed
 		})
 
-class UpdateView(generic.View):
+
+class UpdateView(View):
 	def get(self, request, project_id):
 		project = get_object_or_404(Project, pk = project_id)
 		form = ProjectForm(instance = project)
@@ -54,8 +56,21 @@ class UpdateView(generic.View):
 			'project_id': project_id
 		})
 
+	def post(self, request, project_id):
+		project = Project.objects.get(pk = project_id)
+		form = ProjectForm(request.POST, instance = project)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'success.project.updated')
+			return redirect('/projects/update/' + project_id)
+		else:
+			return render(request, 'projects/update.html', {
+				'form': form,
+				'project_id': project_id
+			})
 
-class DeleteView(generic.View):
+
+class DeleteView(View):
 	def post(self, request, project_id):
 		try:
 			project = Project.objects.get(id = project_id)
@@ -66,3 +81,4 @@ class DeleteView(generic.View):
 		else:
 			messages.success(request, 'success.project.deleted')
 			return redirect('/projects')
+
