@@ -3,11 +3,11 @@ from projects.models import Project
 
 class ProjectAdmin(admin.ModelAdmin):
 	fieldsets = [
-		(None, {'fields': ['project_name']}),
-		('Release Information', {'fields': ['deployment_date', 'is_closed']}),
+		(None, {'fields': ['name']}),
+		('Release Information', {'fields': ['deployment_date', 'is_complete']}),
 	]
-	list_display = ('id', 'project_name', 'deployment_date', 'is_closed')
-	list_filter = ['is_closed']
-	search_fields = ['project_name']
+	list_display = ('id', 'name', 'deployment_date', 'is_complete')
+	list_filter = ['is_complete']
+	search_fields = ['name']
 
 admin.site.register(Project, ProjectAdmin)

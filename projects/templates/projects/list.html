@@ -33,9 +33,9 @@
 					{% for project in projects %}
 						<tr>
 							<td>{{project.id}}</td>
-							<td>{{project.project_name}}</td>
+							<td>{{project.name}}</td>
 							<td>{{project.deployment_date}}</td>
-							<td>{{project.is_closed}}</td>
+							<td>{{project.is_complete}}</td>
 							<td><a href="{% url 'projects:update' project.id %}">Edit</a></td>
 						</tr>
 					{% endfor %}

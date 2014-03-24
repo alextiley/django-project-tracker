@@ -37,7 +37,7 @@ class ListView(generic.View):
 		projects = Project.objects.order_by('deployment_date')
 
 		if not showClosed:
-			projects = projects.exclude(is_closed=True)
+			projects = projects.exclude(is_complete=True)
 
 		return render(request, 'projects/list.html', {
 			'projects': projects,

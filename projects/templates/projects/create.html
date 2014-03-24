@@ -18,15 +18,21 @@
 				{{ form.non_field_errors }}
 
 				<div class="element">
-					{{ form.project_name.errors }}
+					{{ form.name.errors }}
 					<label for="id_project_name">Project Name:</label>
-					{{ form.project_name }}
+					{{ form.name }}
 				</div>
 
 				<div class="element">
 					{{ form.deployment_date.errors }}
 					<label for="id_deployment_date">Deployment Date:</label>
 					{{ form.deployment_date }}
+				</div>
+
+				<div class="element">
+					{{ form.deployment_time.errors }}
+					<label for="id_deployment_time">Deployment Time:</label>
+					{{ form.deployment_time }}
 				</div>
 
 				<button type="submit">Create project</button>

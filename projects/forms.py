@@ -5,10 +5,11 @@ from projects.models import Project
 
 class ProjectForm(forms.ModelForm):
 
-	project_name = forms.CharField()
+	name = forms.CharField()
 	deployment_date = forms.DateTimeField(widget = extras.SelectDateWidget)
-	is_closed = forms.BooleanField(required = False, label = 'Project Closed?', initial = False)
+	#deployment_time = forms.TimeField(help_text = 'hh:mm')
+	is_complete = forms.BooleanField(required = False, label = 'Project Closed?', initial = False)
 
 	class Meta:
 		model = Project
-		initial = {'is_closed': False}
+		initial = {'is_complete': False}
