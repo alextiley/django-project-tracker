@@ -1,6 +1,7 @@
 /* Reset */
 ul {padding:0;}
 li {list-style-type:none;}
+body {margin-top:40px;}
 
 /* Base styles */
 h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
@@ -12,9 +13,10 @@ h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
 
 /* Faux tables - used to replace tables, adding a responsive dimension */
 .faux-table .faux-table-head {border-bottom:1px solid #eee; padding-bottom:5px; margin-bottom:10px;}
-.faux-table .faux-table-body li {padding-bottom:10px;}
+.faux-table .faux-table-body li {padding:10px 0;}
 
 /* List page */
+.projects li:nth-child(2n+2) {background:#fafafa;}
 .projects li.deploy-overdue .countdown {color:#ff0000; font-weight:bold;}
 .projects li.deploy-very-soon .countdown {color:#ff0000;}
 .projects li.deploy-soon .countdown {color:#ff9900;}

@@ -3,7 +3,6 @@ from datetime import datetime
 
 class Project(models.Model):
 
-	@staticmethod
 	def default_time():
 		return datetime.now().replace(hour=12, minute=00, second=0, microsecond=0)
 
