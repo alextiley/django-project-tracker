@@ -41,9 +41,10 @@
 
 		{% if show_all %}
 			<a href="{% url 'projects:list' %}" class="btn btn-default">Hide Closed Projects</a>
-		{% else %}
+		{% elif closed_project_count > 0 %}
 			<a href="{% url 'projects:list' %}?show_all=true" class="btn btn-default">Show Closed Projects</a>
 		{% endif %}
 	</div>
 
 {% endblock %}
+

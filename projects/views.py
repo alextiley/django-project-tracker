@@ -48,6 +48,7 @@ class ListView(View):
 		projects = Project.objects.order_by('deployment_date')
 		open_projects = projects.exclude(is_complete = True)
 		closed_projects = list()
+		closed_project_count = Project.objects.filter(is_complete = True).count()
 
 		if show_all:
 			closed_projects = projects.exclude(is_complete = False)
@@ -55,6 +56,7 @@ class ListView(View):
 		return render(request, 'projects/list.html', {
 			'open_projects': open_projects,
 			'closed_projects': closed_projects,
+			'closed_project_count': closed_project_count,
 			'show_all': show_all
 		})
 
