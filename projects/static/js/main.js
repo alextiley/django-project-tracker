@@ -55,7 +55,7 @@ project.countdown.update = function ($field, data) {
 			styleClass = 'deploy-overdue';
 		} else if (data.timings.days < 7) {
 			styleClass = 'deploy-very-soon';
-		} else if (data.timings.days >= 7 && data.days < 14) {
+		} else if (data.timings.days >= 7 && data.timings.days < 14) {
 			styleClass = 'deploy-soon';
 		} else {
 			styleClass = 'deploy-later';
