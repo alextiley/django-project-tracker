@@ -1,7 +1,7 @@
 <li class="row {{project_type}}-project">
 	<div class="col-xs-2 name">{{ project.name }}</div>
-	<div class="col-xs-5 date">{{ project.deployment_date|date:"l jS F, Y" }} ({{ project.deployment_date|date:"h:s A" }})</div>
-	<div class="col-xs-2 countdown{% if project_type = 'open' %} invisible{% endif %}" data-timestamp="{{ project.deployment_date.isoformat }}">
+	<div class="col-xs-4 date">{{ project.deployment_date|date:"l jS F, Y" }} ({{ project.deployment_time|date:"H:i" }} hours)</div>
+	<div class="col-xs-4 countdown" data-timestamp="{{ project.deployment_date.isoformat }} {{ project.deployment_time.isoformat }}">
 		{% if project_type = 'open' %}
 			<span class="days"></span>
 			<span class="hours"></span>
@@ -11,5 +11,5 @@
 			<span class="closed">Project Closed</span>
 		{% endif %}
 	</div>
-	<div class="col-xs-2 actions text-right"><a href="{% url 'projects:update' project.id %}" class="btn btn-default">Edit</a></div>
+	<div class="col-xs-1 actions text-right"><a href="{% url 'projects:update' project.id %}" class="btn btn-default">Edit</a></div>
 </li>

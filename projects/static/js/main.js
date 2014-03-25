@@ -1,93 +1,125 @@
 var project = {};
 
 project.countdown = {};
-project.constants = {};
 
-project.countdown.get = function (current, future) {
+project.countdown.get = function (future) {
 
-	var data = null,
+	var current = new Date().getTime(),
+		originalDelta = (future - current) / 1000,
+		data = {},
 		delta;
 
-	if (future - current > 0) {
+	// Always work with a positive number, negate later if the original delta is negative
+	delta = Math.abs(originalDelta);
 
-		data = {};
+	// Calculate (and subtract) whole days
+	data.days = Math.floor(delta / 86400);
+	delta -= data.days * 86400;
 
-		// get total seconds between the times
-		delta = Math.abs(future - current) / 1000;
+	// Negate the number of days if the original delta was negative
+	if (originalDelta < 0) {
+		data.days = -Math.abs(data.days);
+	}	
 
-		// calculate (and subtract) whole days
-		data.days = Math.floor(delta / 86400);
-		delta -= data.days * 86400;
+	// Calculate (and subtract) whole hours
+	data.hours = Math.floor(delta / 3600) % 24;
+	delta -= data.hours * 3600;
 
-		// calculate (and subtract) whole hours
-		data.hours = Math.floor(delta / 3600) % 24;
-		delta -= data.hours * 3600;
+	// Calculate (and subtract) whole minutes
+	data.minutes = Math.floor(delta / 60) % 60;
+	delta -= data.minutes * 60;
 
-		// calculate (and subtract) whole minutes
-		data.minutes = Math.floor(delta / 60) % 60;
-		delta -= data.minutes * 60;
+	// The remainder is the number of seconds
+	data.seconds = Math.floor(delta) % 60;
 
-		// what's left is seconds
-		data.seconds = Math.floor(delta) % 60;
-
-	}
-
-	return data;
+	return {
+		timings: data,
+		delta: originalDelta
+	};
 };
 
 project.countdown.update = function ($field, data) {
 
-	var prop;
+	var $separator = '<span class="separator">,</span>',
+		$currentUnit,
+		cssClass,
+		i = 0,
+		prop;
 
-	function manageStatusClass($field, add, remove) {
-		$field.parent('li').removeClass(remove).addClass(add);
-	}
+	this.addStyleClass = function ($field, data) {
 
-	if (data !== null) {
+		var styleClass;
+		
+		// Manage CSS classes dependant on time remaining
+		if (data.delta < 0) {
+			styleClass = 'deploy-overdue';
+		} else if (data.timings.days < 7) {
+			styleClass = 'deploy-very-soon';
+		} else if (data.timings.days >= 7 && data.days < 14) {
+			styleClass = 'deploy-soon';
+		} else {
+			styleClass = 'deploy-later';
+		}
 
-		for (prop in data) {
-			if (data.hasOwnProperty(prop)) {
-				$field.find('.' + prop).html(data[prop])
+		// Add the correct class to the element
+		$field.parent('li').removeClass('deploy-overdue deploy-very-soon deploy-soon deploy-later').addClass(styleClass);
+	};
+
+	// Loop over the time properties and update their respective containers
+	for (prop in data.timings) {
+		if (data.timings.hasOwnProperty(prop)) {
+
+			$currentUnit = $field.find('.' + prop);
+			
+			if ($currentUnit.length > 0) {
+
+				$currentUnit.html(data.timings[prop] + ' ' + prop);
+
+				// Add the comma separator to all but the last time property
+				if (i < (Object.keys(data.timings).length - 1)) {
+					$currentUnit.append($separator)
+				}
+
+				// Hide zero values from display
+				if (data.timings[prop] === 0) {
+					$currentUnit.hide();
+				} else {
+					$currentUnit.show();
+				}
 			}
 		}
-
-		// Manage CSS classes dependant on time remaining
-		if (data.days < 7) {
-			manageStatusClass($field, 'deploy-very-soon', 'deploy-soon deploy-later');
-		} else if (data.days >= 7 && data.days < 14) {
-			manageStatusClass($field, 'deploy-soon', 'deploy-later');
-		} else {
-			manageStatusClass($field, 'deploy-later');
-		}
-
-	} else {
-		$field.html('<span class="deploying">Deploying Now</span>');
-		$field.parent('li').addClass('deploy-now');
+		i++;
 	}
 
-	$field.removeClass('invisible');
+	this.addStyleClass($field, data);
 };
 
 $(function() {
 
 	var $fields = $('.open-project').find('.countdown'),
-		current,
 		future,
 		data,
 		iso,
 		i;
 
+	// Work out the remaining time every second
 	window.setInterval(function () {
-		
-		current = new Date().getTime();
 
 		for (i = 0; i < $fields.length; i++) {
+
 			$this = $($fields[i]);
+
+			// Get the date/time
 			iso = $this.attr('data-timestamp');
 			future = new Date(iso).getTime();
-			data = project.countdown.get(current, future);
+			
+			// Calculate how much time is remaining for the current row
+			data = project.countdown.get(future);
+
+			// Update the page visually with the calculations
 			project.countdown.update($this, data);
 		}
+
 	}, 1000);
 
 });

@@ -29,8 +29,8 @@
 			</div>
 
 			<div class="element">
-				<label for="id_deployment_time">Deployment Time:</label>
-				{{ form.deployment_time }}
+				<label for="id_deployment_time">Deployment Time (hh:mm):</label>
+				<input type="text" id="id_deployment_time" name="deployment_time" value="{{ form.deployment_time.value|date:"H:i" }}" />
 				{% include "projects/partials/inline-error.html" with field="deployment_time" %}
 			</div>
 

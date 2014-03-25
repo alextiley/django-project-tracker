@@ -6,8 +6,8 @@ from projects.models import Project
 class ProjectForm(forms.ModelForm):
 
 	name = forms.CharField()
-	deployment_date = forms.DateTimeField(widget = extras.SelectDateWidget)
-	#deployment_time = forms.TimeField(help_text = 'hh:mm')
+	deployment_date = forms.DateField(widget = extras.SelectDateWidget)
+	deployment_time = forms.TimeField(help_text = 'hh:mm', initial = Project.default_time)
 	is_complete = forms.BooleanField(required = False, label = 'Project Closed?', initial = False)
 
 	class Meta:
