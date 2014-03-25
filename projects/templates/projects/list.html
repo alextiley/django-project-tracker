@@ -6,7 +6,7 @@
 	
 	<h1>Project List</h1>
 
-	{% include "projects/messages.html" %}
+	{% include "projects/partials/messages.html" %}
 
 	{% if open_projects or closed_projects and show_all %}
 
@@ -25,10 +25,10 @@
 			</div>
 			<ul class="faux-table-body projects">
 				{% for project in open_projects %}
-					{% include "projects/project-list-item.html" with project_type="open" %}
+					{% include "projects/partials/project-list-item.html" with project_type="open" %}
 				{% endfor %}
 				{% for project in closed_projects %}
-					{% include "projects/project-list-item.html" with project_type="closed" %}
+					{% include "projects/partials/project-list-item.html" with project_type="closed" %}
 				{% endfor %}	
 			</ul>
 		</div>

@@ -33,11 +33,11 @@ class CreateView(View):
 		form = ProjectForm(request.POST)
 
 		if form.is_valid():
-			form.save()
-			messages.success(request, 'success.project.created')
+			project = form.save()
+			messages.success(request, 'Project \'' + project.name + '\' was successfully created.')
 			return redirect('/projects')
 		else:
-			messages.error(request, 'error.form.invalid')
+			messages.error(request, 'Sorry, but there was a problem with the information you supplied.')
 			return render_create(request, form)
 
 
@@ -69,10 +69,11 @@ class UpdateView(View):
 		project = Project.objects.get(pk = project_id)
 		form = ProjectForm(request.POST, instance = project)
 		if form.is_valid():
-			form.save()
-			messages.success(request, 'success.project.updated')
+			project = form.save()
+			messages.success(request, 'Project \'' + project.name + '\' was successfully updated.')
 			return redirect('/projects/update/' + project_id)
 		else:
+			messages.error(request, 'Sorry, but there was a problem with the information you supplied.')
 			return render_update(request, form, project_id)
 
 
@@ -82,9 +83,9 @@ class DeleteView(View):
 			project = Project.objects.get(id = project_id)
 			project.delete()
 		except ObjectDoesNotExist:
-			messages.error(request, 'error.project.invalid')
+			# Don't show an error here, there's no need to tell potential hackers that the project doesn't exist
 			return redirect(request.META.get('HTTP_REFERER', None))
 		else:
-			messages.success(request, 'success.project.deleted')
+			messages.success(request, 'Project \'' + project.name + '\' was successfully deleted.')
 			return redirect('/projects')
 

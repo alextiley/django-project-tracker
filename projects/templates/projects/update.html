@@ -6,7 +6,7 @@
 
 	<h1>Update Project: {{ form.name.value }}</h1>
 	
-	{% include "projects/messages.html" %}
+	{% include "projects/partials/messages.html" %}
 
 	<form action="{% url 'projects:update' project_id %}" method="post">
 		<fieldset>
@@ -19,19 +19,19 @@
 			<div class="element">
 				<label for="id_name">Project Name:</label>
 				{{ form.name }}
-				{{ form.name.errors }}
+				{% include "projects/partials/inline-error.html" with field="name" %}
 			</div>
 
 			<div class="element">
 				<label for="id_deployment_date">Deployment Date:</label>
 				{{ form.deployment_date }}
-				{{ form.deployment_date.errors }}
+				{% include "projects/partials/inline-error.html" with field="deployment_date" %}
 			</div>
 
 			<div class="element">
 				<label for="id_deployment_time">Deployment Time:</label>
 				{{ form.deployment_time }}
-				{{ form.deployment_time.errors }}
+				{% include "projects/partials/inline-error.html" with field="deployment_time" %}
 			</div>
 
 			<div class="element">

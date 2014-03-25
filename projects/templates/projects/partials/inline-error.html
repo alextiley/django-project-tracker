@@ -1,0 +1,5 @@
+{% for fields in form %}
+	{% if fields.name == field %}
+		<div class="error">{{ fields.errors.as_text }}</div>
+	{% endif %}
+{% endfor %}

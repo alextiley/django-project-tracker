@@ -6,7 +6,7 @@
 
 	<h1>Create a new project</h1>
 	
-	{% include "projects/messages.html" %}
+	{% include "projects/partials/messages.html" %}
 
 	<form action="{% url 'projects:create' %}" method="post">
 		<fieldset>
@@ -17,21 +17,21 @@
 			{{ form.non_field_errors }}
 
 			<div class="element">
-				{{ form.name.errors }}
 				<label for="id_name">Project Name:</label>
 				{{ form.name }}
+				{% include "projects/partials/inline-error.html" with field="name" %}
 			</div>
 
 			<div class="element">
-				{{ form.deployment_date.errors }}
 				<label for="id_deployment_date">Deployment Date:</label>
 				{{ form.deployment_date }}
+				{% include "projects/partials/inline-error.html" with field="deployment_date" %}
 			</div>
 
 			<div class="element">
-				{{ form.deployment_time.errors }}
 				<label for="id_deployment_time">Deployment Time:</label>
 				{{ form.deployment_time }}
+				{% include "projects/partials/inline-error.html" with field="deployment_time" %}
 			</div>
 
 			<button type="submit">Create project</button>

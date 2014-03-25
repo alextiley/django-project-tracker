@@ -10,7 +10,7 @@ h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
 .faux-table .faux-table-body li {padding-bottom:10px; line-height:34px;}
 
 /* List page */
-.projects li.deploy-now .countdown {color:#ff0000; -webkit-animation:blink 1s step-end infinite;}
+.projects li.deploy-now .countdown {color:#ff0000;}
 .projects li.deploy-very-soon .countdown {color:#ff0000;}
 .projects li.deploy-soon .countdown {color:#FF9900;}
 .projects li.deploy-later .countdown {color:#009900;}
@@ -18,8 +18,3 @@ h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
 .countdown .days:after,
 .countdown .hours:after,
 .countdown .minutes:after {content:':'; padding:0 3px;}
-
-@-webkit-keyframes blink {
-	0% {opacity:1;}
-	50% {opacity:0.6;}
-}

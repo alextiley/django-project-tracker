@@ -47,7 +47,7 @@ project.countdown.update = function ($field, data) {
 
 		for (prop in data) {
 			if (data.hasOwnProperty(prop)) {
-				$field.find('.' + prop).html(data[prop]);
+				$field.find('.' + prop).html(data[prop])
 			}
 		}
 
@@ -61,10 +61,11 @@ project.countdown.update = function ($field, data) {
 		}
 
 	} else {
-		$field.html('Deploying Now');
+		$field.html('<span class="deploying">Deploying Now</span>');
 		$field.parent('li').addClass('deploy-now');
 	}
 
+	$field.removeClass('invisible');
 };
 
 $(function() {
