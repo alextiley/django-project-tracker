@@ -8,34 +8,43 @@
 	
 	{% include "projects/partials/messages.html" %}
 
-	<form action="{% url 'projects:create' %}" method="post">
+	<form action="{% url 'projects:create' %}" method="post" role="form" class="form-horizontal">
 		<fieldset>
-			<legend>Please complete the fields below:</legend>
+			<legend>Please complete the fields below to create a new project</legend>
 
 			{% csrf_token %}
 			
 			{{ form.non_field_errors }}
 
-			<div class="element">
-				<label for="id_name">Project Name:</label>
-				{{ form.name }}
-				{% include "projects/partials/inline-error.html" with field="name" %}
+			<div class="form-group">
+				<label for="id_name" class="control-label col-sm-2">Project Name *</label>
+				<div class="col-sm-5">
+					{{ form.name }}
+					{% include "projects/partials/inline-error.html" with field="name" %}
+				</div>
 			</div>
 
-			<div class="element">
-				<label for="id_deployment_date">Deployment Date:</label>
-				{{ form.deployment_date }}
-				{% include "projects/partials/inline-error.html" with field="deployment_date" %}
+			<div class="form-group clearfix">
+				<label for="id_deployment_date" class="control-label col-sm-2">Deployment Date *</label>
+				<div class="col-sm-5 date-control">
+					{{ form.deployment_date }}
+					{% include "projects/partials/inline-error.html" with field="deployment_date" %}
+				</div>
 			</div>
 
-			<div class="element">
-				<label for="id_deployment_time">Deployment Time (hh:mm):</label>
-				<input type="text" id="id_deployment_time" name="deployment_time" value="{{ form.deployment_time.value|date:"H:i" }}" />
-				{% include "projects/partials/inline-error.html" with field="deployment_time" %}
+			<div class="form-group">
+				<label for="id_deployment_time" class="control-label col-sm-2">Deployment Time *</label>
+				<div class="col-sm-5">
+					{{ form.deployment_time }}
+					{% include "projects/partials/inline-error.html" with field="deployment_time" %}
+				</div>
 			</div>
 
-			<button type="submit">Create project</button>
-			<a href="{% url 'projects:list' %}">Back to all projects</a>
+			<div class="well">
+				<button type="submit" class="btn btn-primary">Create project</button>&nbsp;
+				<a href="{% url 'projects:list' %}" class="btn btn-default">Back to all projects</a>
+			</div>
+
 		</fieldset>
 	</form>
 

@@ -5,13 +5,24 @@ li {list-style-type:none;}
 /* Base styles */
 h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
 
+/* Utils */
+.position-relative {position:relative;}
+.italic {font-style:italic;}
+.big-margin {margin-bottom:25px;}
+
 /* Faux tables - used to replace tables, adding a responsive dimension */
 .faux-table .faux-table-head {border-bottom:1px solid #eee; padding-bottom:5px; margin-bottom:10px;}
 .faux-table .faux-table-body li {padding-bottom:10px;}
 
 /* List page */
-.projects li.deploy-overdue .countdown,
+.projects li.deploy-overdue .countdown {color:#ff0000; font-weight:bold;}
 .projects li.deploy-very-soon .countdown {color:#ff0000;}
-.projects li.deploy-soon .countdown {color:#FF9900;}
+.projects li.deploy-soon .countdown {color:#ff9900;}
 .projects li.deploy-later .countdown {color:#009900;}
 .countdown > span {float:left; padding-right:5px;}
+
+/* Update/Create pages */
+.date-control .form-control {float:left; width:130px; margin-right:10px;}
+.date-control .form-control:last-of-type {margin-right:0; clear:right;}
+
+.form-group .error {clear:both; font-style:italic; color:#a94442; padding-top:10px;}

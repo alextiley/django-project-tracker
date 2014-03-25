@@ -18,7 +18,7 @@ project.countdown.get = function (future) {
 
 	// Negate the number of days if the original delta was negative
 	if (originalDelta < 0) {
-		data.days = -Math.abs(data.days);
+		data.days = 'Overdue by ' + Math.abs(data.days);
 	}	
 
 	// Calculate (and subtract) whole hours
@@ -81,7 +81,7 @@ project.countdown.update = function ($field, data) {
 				}
 
 				// Hide zero values from display
-				if (data.timings[prop] === 0) {
+				if (prop !== 'seconds' && data.timings[prop] === 0) {
 					$currentUnit.hide();
 				} else {
 					$currentUnit.show();
@@ -121,5 +121,8 @@ $(function() {
 		}
 
 	}, 1000);
+
+	// By default Django adds an 'Unknown' value to the NullBooleanSelect select widget - remove this
+	$('#id_is_complete').find('option:first').remove();
 
 });

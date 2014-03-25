@@ -10,7 +10,7 @@
 
 	{% if open_projects or closed_projects and show_all %}
 
-		<p>Currently displaying 
+		<p class="italic big-margin">Currently displaying 
 			{{ open_projects|length }} open project{% if open_projects|length != 1 %}s{% endif %}{% if not show_all %}.{% endif %}
 			{% if show_all %}
 				and {{ closed_projects|length }} closed project{% if closed_projects|length != 1 %}s{% endif %}.
@@ -36,9 +36,8 @@
 		<p>There are no projects to display.</p>
 	{% endif %}
 
-	<div class="tools">
-		<a href="{% url 'projects:create' %}" class="btn btn-primary">Add a project</a>
-
+	<div class="well">
+		<a href="{% url 'projects:create' %}" class="btn btn-primary">Create a New Project</a>&nbsp;
 		{% if show_all %}
 			<a href="{% url 'projects:list' %}" class="btn btn-default">Hide Closed Projects</a>
 		{% elif closed_project_count > 0 %}
