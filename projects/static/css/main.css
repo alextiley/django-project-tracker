@@ -29,3 +29,5 @@ h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:25px;}
 .form-group .error {clear:both; font-style:italic; color:#a94442; padding-top:10px;}
 
 .modal-body p {margin-bottom:0px;}
+
+.well {margin-top:50px;}
