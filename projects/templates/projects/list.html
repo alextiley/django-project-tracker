@@ -39,7 +39,7 @@
 	<div class="well">
 		<a href="{% url 'projects:create' %}" class="btn btn-primary">Create a New Project</a>&nbsp;
 		{% if show_all %}
-			<a href="{% url 'projects:list' %}" class="btn btn-default">Hide Closed Projects</a>
+			<a href="{% url 'projects:list' %}?show_all=false" class="btn btn-default">Hide Closed Projects</a>
 		{% elif closed_project_count > 0 %}
 			<a href="{% url 'projects:list' %}?show_all=true" class="btn btn-default">Show Closed Projects</a>
 		{% endif %}

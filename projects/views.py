@@ -42,22 +42,38 @@ class CreateView(View):
 
 
 class ListView(View):
+
 	def get(self, request):
 		
-		show_all = bool(request.GET.get('show_all'))
+		try:
+			request.session['show_all']
+
+		# By default we only wish to display open projects
+		except KeyError:
+			request.session['show_all'] = False
+
+		# If the user has a session, check request params to 
+		# determine whether they want to view all projects
+		else:
+			if request.GET.get('show_all') == 'true':
+				request.session['show_all'] = True
+			elif request.GET.get('show_all') == 'false':
+				request.session['show_all'] = False
+
 		projects = Project.objects.order_by('deployment_date')
 		open_projects = projects.exclude(is_complete = True)
-		closed_projects = list()
-		closed_project_count = Project.objects.filter(is_complete = True).count()
+		closed_project_count = projects.exclude(is_complete = False).count()
 
-		if show_all:
+		if request.session['show_all'] == True:
 			closed_projects = projects.exclude(is_complete = False)
+		else:	
+			closed_projects = list()
 
 		return render(request, 'projects/list.html', {
 			'open_projects': open_projects,
 			'closed_projects': closed_projects,
 			'closed_project_count': closed_project_count,
-			'show_all': show_all
+			'show_all': request.session['show_all']
 		})
 
 
