@@ -1,7 +1,7 @@
 <li class="row {{project_type}}-project">
 	<div class="col-xs-2 name">{{ project.name }}</div>
 	<div class="col-xs-4 date">{{ project.deployment_date|date:"l jS F, Y" }} ({{ project.deployment_time|date:"H:i" }} hours)</div>
-	<div class="col-xs-4 countdown" data-timestamp="{{ project.deployment_date.isoformat }} {{ project.deployment_time.isoformat }}">
+	<div class="col-xs-5 countdown" data-timestamp="{{ project.deployment_date.isoformat }} {{ project.deployment_time.isoformat }}">
 		{% if project_type = 'open' %}
 			<span class="days"></span>
 			<span class="hours"></span>
