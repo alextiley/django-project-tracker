@@ -12,7 +12,7 @@
 
 		<form action="{% url 'projects:update' project_id %}" method="post" role="form" class="form-horizontal">
 			<fieldset>
-				<legend>Please complete the fields below to make changes to project '{{ form.name.value }}'</legend>
+				<legend class="big-margin">Please complete the fields below to make changes to project '{{ form.name.value }}'</legend>
 
 				{% csrf_token %}
 				

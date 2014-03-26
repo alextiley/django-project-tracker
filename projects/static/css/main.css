@@ -4,12 +4,11 @@ li {list-style-type:none;}
 body {margin-top:40px;}
 
 /* Base styles */
-h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
+h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:25px;}
 
 /* Utils */
 .position-relative {position:relative;}
 .italic {font-style:italic;}
-.big-margin {margin-bottom:25px;}
 
 /* Faux tables - used to replace tables, adding a responsive dimension */
 .faux-table .faux-table-head {border-bottom:1px solid #eee; padding-bottom:5px; margin-bottom:10px;}
@@ -28,3 +27,5 @@ h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:20px;}
 .date-control .form-control:last-of-type {margin-right:0; clear:right;}
 
 .form-group .error {clear:both; font-style:italic; color:#a94442; padding-top:10px;}
+
+.modal-body p {margin-bottom:0px;}
