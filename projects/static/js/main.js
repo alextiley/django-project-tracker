@@ -73,7 +73,7 @@ project.countdown.update = function ($field, data) {
 			
 			if ($currentUnit.length > 0) {
 
-				$currentUnit.html(data.timings[prop] + ' ' + prop);
+				$currentUnit.html(data.timings[prop] + ' ' + (data.timings[prop] === 1 ? prop.replace(/s$/, '') : prop));
 
 				// Add the comma separator to all but the last time property
 				if (i < (Object.keys(data.timings).length - 1)) {
