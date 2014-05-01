@@ -29,6 +29,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Production:
+#ALLOWED_HOSTS = ['localhost', 'webdevops.vas.agile.bte.int']
+
 
 # Application definition
 
