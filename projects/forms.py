@@ -26,7 +26,8 @@ class ProjectForm(forms.ModelForm):
 			format = '%H:%M',
 			attrs = {
 				'class': 'form-control',
-				'placeholder': 'Enter a time in 24 hour format (hh:mm), e.g. 14:30 or 06:00'
+				'placeholder': 'Enter a time in 24 hour format (hh:mm), e.g. 14:30 or 06:00',
+				'value': '12:00'
 			}
 		)
 	)
