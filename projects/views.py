@@ -1,8 +1,5 @@
 import logging
 
-from urllib import urlencode
-from collections import OrderedDict
-
 from django.views.generic import View
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -57,12 +54,14 @@ def get_page(pagination, page_number):
 	return page
 
 
+# Don't add page to the URL, this is controlled in pagination template
+# Also, don't pass show_all through as this is stored in the user's session
 def get_paging_params(request):
 
 	query_string = ''
 
 	for param, value in request.GET.iteritems():
-		if param != 'page':
+		if param != 'page' and param != 'show_all':
 			query_string = query_string + '&' + param + '=' + value
 
 	return query_string
@@ -80,6 +79,19 @@ def get_show_all(request):
 		return False
 	else:
 		return request.session['show_all']
+
+
+def get_pages_to_display(pagination, page, count_per_side):
+
+	pages = []
+	start = page.number - count_per_side
+	end = page.number + count_per_side
+
+	for i in range(start, end + 1):
+		if i > 0 and i <= pagination.num_pages:
+			pages.append(i)
+
+	return pages
 
 
 class CreateView(View):
@@ -119,6 +131,7 @@ class ListView(View):
 		pagination = get_pagination(projects, request.GET.get('results'))
 		page = get_page(pagination, request.GET.get('page'))
 		page.query_string = get_paging_params(request)
+		pagination.display_pages = get_pages_to_display(pagination, page, 3)
 
 		if not page:
 			items = list()
