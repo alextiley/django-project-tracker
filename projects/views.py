@@ -1,14 +1,26 @@
 import logging
 
+from urllib import urlencode
+from collections import OrderedDict
+
 from django.views.generic import View
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator, InvalidPage
 from django.shortcuts import render, redirect, get_object_or_404
 
 from projects.models import Project
 from projects.forms import ProjectForm
 
 log = logging.getLogger(__name__)
+
+
+def is_positive_integer(value):
+	try:
+		value = int(value)
+	except (ValueError, TypeError):
+		return False
+	return value > 0
 
 
 def render_create(request, form):
@@ -22,6 +34,52 @@ def render_update(request, form, project_id):
 		'form': form,
 		'project_id': project_id
 	})
+
+
+def get_pagination(collection, result_count):
+
+	if not is_positive_integer(result_count):
+		result_count = 5
+
+	return Paginator(collection, result_count)
+
+
+def get_page(pagination, page_number):
+
+	if page_number is None:
+		page_number = 1
+
+	try:
+		page = pagination.page(page_number)
+	except InvalidPage:
+		return False
+
+	return page
+
+
+def get_paging_params(request):
+
+	query_string = ''
+
+	for param, value in request.GET.iteritems():
+		if param != 'page':
+			query_string = query_string + '&' + param + '=' + value
+
+	return query_string
+
+
+def get_show_all(request):
+	try:
+		request.session['show_all']
+	except KeyError: # By default we only wish to display open projects
+		return False
+	# If the user has a session, check request params to determine whether they want to view all projects
+	if request.GET.get('show_all') == 'true':
+		return True
+	elif request.GET.get('show_all') == 'false':
+		return False
+	else:
+		return request.session['show_all']
 
 
 class CreateView(View):
@@ -44,48 +102,53 @@ class CreateView(View):
 class ListView(View):
 
 	def get(self, request):
-		
-		try:
-			request.session['show_all']
-
-		# By default we only wish to display open projects
-		except KeyError:
-			request.session['show_all'] = False
-
-		# If the user has a session, check request params to 
-		# determine whether they want to view all projects
-		else:
-			if request.GET.get('show_all') == 'true':
-				request.session['show_all'] = True
-			elif request.GET.get('show_all') == 'false':
-				request.session['show_all'] = False
 
 		projects = Project.objects.order_by('deployment_date')
-		open_projects = projects.exclude(is_complete = True)
+
+		open_project_count = projects.exclude(is_complete = True).count()
 		closed_project_count = projects.exclude(is_complete = False).count()
 
-		if request.session['show_all'] == True:
-			closed_projects = projects.exclude(is_complete = False)
-		else:	
-			closed_projects = list()
+		# Store show_all config in the session so the app remembers it's value when the user navigates away
+		request.session['show_all'] = get_show_all(request)
+
+		# If show_all has been set to false (default option), filter those records out
+		if request.session['show_all'] == False:
+			projects = projects.exclude(is_complete = True)
+
+		# Now we have our project list, get pagination
+		pagination = get_pagination(projects, request.GET.get('results'))
+		page = get_page(pagination, request.GET.get('page'))
+		page.query_string = get_paging_params(request)
+
+		if not page:
+			items = list()
+		else:
+			items = page.object_list
 
 		return render(request, 'projects/list.html', {
-			'open_projects': open_projects,
-			'closed_projects': closed_projects,
+			'projects': items,
+			'pagination': pagination,
+			'page': page,
+			'open_project_count': open_project_count,
 			'closed_project_count': closed_project_count,
 			'show_all': request.session['show_all']
 		})
 
 
 class UpdateView(View):
+
 	def get(self, request, project_id):
+
 		project = get_object_or_404(Project, pk = project_id)
 		form = ProjectForm(instance = project)
+
 		return render_update(request, form, project_id)
 
 	def post(self, request, project_id):
+
 		project = Project.objects.get(pk = project_id)
 		form = ProjectForm(request.POST, instance = project)
+
 		if form.is_valid():
 			project = form.save()
 			messages.success(request, 'Project \'' + project.name + '\' was successfully updated.')
@@ -96,13 +159,17 @@ class UpdateView(View):
 
 
 class DeleteView(View):
+
 	def post(self, request, project_id):
+
 		try:
 			project = Project.objects.get(id = project_id)
 			project.delete()
+
 		except ObjectDoesNotExist:
 			# Don't show an error here, there's no need to tell potential hackers that the project doesn't exist
 			return redirect(request.META.get('HTTP_REFERER', None))
+
 		else:
 			messages.success(request, 'Project \'' + project.name + '\' was successfully deleted.')
 			return redirect('/projects')

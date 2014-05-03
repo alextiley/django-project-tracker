@@ -1,7 +1,7 @@
 /* Reset */
 ul {padding:0;}
 li {list-style-type:none;}
-body {margin-top:40px;}
+body {margin-top:25px;}
 
 /* Base styles */
 h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:25px;}
@@ -30,4 +30,4 @@ h1, h2, h3, h4, h5, h6, p, .big-margin {margin-bottom:25px;}
 
 .modal-body p {margin-bottom:0px;}
 
-.well {margin-top:50px;}
+.well {margin-top:20px;}

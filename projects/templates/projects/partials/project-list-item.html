@@ -1,12 +1,13 @@
-<li class="row {{project_type}}-project">
+<li class="row {{ project.is_complete|yesno:'closed,open' }}-project">
 	<div class="col-xs-2 name">{{ project.name }}</div>
 	<div class="col-xs-4 date">{{ project.deployment_date|date:"l jS F, Y" }} ({{ project.deployment_time|date:"H:i" }} hours)</div>
 	<div class="col-xs-5 countdown" data-timestamp="{{ project.deployment_date.isoformat }} {{ project.deployment_time.isoformat }}">
-		{% if project_type = 'open' %}
+		{% if not project.is_complete %}
 			<span class="days"></span>
 			<span class="hours"></span>
 			<span class="minutes"></span>
 			<span class="seconds"></span>
+			-
 		{% else %}
 			<span class="closed">Project Closed</span>
 		{% endif %}

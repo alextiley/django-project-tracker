@@ -8,12 +8,14 @@
 
 	{% include "projects/partials/messages.html" %}
 
-	{% if open_projects or closed_projects and show_all %}
+	{% if projects %}
 
 		<p class="italic big-margin">Currently displaying 
-			{{ open_projects|length }} open project{% if open_projects|length != 1 %}s{% endif %}{% if not show_all %}.{% endif %}
+			{{ page.start_index }} - {{ page.end_index }} of 
+			{{ pagination.count }} visible project{% if pagination.count != 1 %}s{% endif %}{% if not show_all %}.{% endif %}
 			{% if show_all %}
-				and {{ closed_projects|length }} closed project{% if closed_projects|length != 1 %}s{% endif %}.
+				({{ open_project_count }} open project{% if open_project_count != 1 %}s{% endif %} and 
+				{{ closed_project_count }} closed project{% if closed_project_count != 1 %}s{% endif %}).
 			{% endif %}
 		</p>
 
@@ -24,14 +26,14 @@
 				<div class="col-xs-5 countdown">Status</div>
 			</div>
 			<ul class="faux-table-body projects">
-				{% for project in open_projects %}
-					{% include "projects/partials/project-list-item.html" with project_type="open" %}
+				{% for project in projects %}
+					{% include "projects/partials/project-list-item.html" %}
 				{% endfor %}
-				{% for project in closed_projects %}
-					{% include "projects/partials/project-list-item.html" with project_type="closed" %}
-				{% endfor %}	
 			</ul>
 		</div>
+
+		{% include "projects/partials/pagination.html" %}
+
 	{% else %}
 		<p>There are no projects to display.</p>
 	{% endif %}

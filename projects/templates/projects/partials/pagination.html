@@ -1,0 +1,58 @@
+{% if pagination.num_pages > 1 %}
+
+	<ul class="pagination">
+
+		<!-- First page -->
+		{% if page.has_previous %}
+			<li>
+				<a href="{% url 'projects:list' %}?page=1{{ page.query_string }}">&laquo;</a>
+			</li>
+		{% else %}
+			<li class="disabled">
+				<a>&laquo;</a>
+			</li>
+		{% endif %}
+
+		<!-- Previous page -->
+		{% if page.has_previous %}
+			<li>
+				<a href="{% url 'projects:list' %}?page={{ page.previous_page_number }}{{ page.query_string }}">&lsaquo;</a>
+			</li>
+		{% else %}
+			<li class="disabled">
+				<a>&lsaquo;</a>
+			</li>
+		{% endif %}
+
+		<!-- List all pages -->
+		{% for number in pagination.page_range %}
+			<li{% ifequal number page.number %} class="disabled"{% endifequal %}>
+				<a href="{% url 'projects:list' %}?page={{ number }}{{ page.query_string }}">{{ number }}</a>
+			</li>
+		{% endfor %}
+
+		<!-- Previous page -->
+		{% if page.has_next %}
+			<li>
+				<a href="{% url 'projects:list' %}?page={{ page.next_page_number }}{{ page.query_string }}">&rsaquo;</a>
+			</li>
+		{% else %}
+			<li class="disabled">
+				<a>&rsaquo;</a>
+			</li>
+		{% endif %}
+
+		<!-- Last page -->
+		{% if page.has_next %}
+			<li>
+				<a href="{% url 'projects:list' %}?page={{ pagination.num_pages }}{{ page.query_string }}">&raquo;</a>
+			</li>
+		{% else %}
+			<li class="disabled">
+				<a>&raquo;</a>
+			</li>
+		{% endif %}
+
+	</ul>
+
+{% endif %}
