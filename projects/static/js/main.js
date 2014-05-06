@@ -125,4 +125,18 @@ $(function() {
 	// By default Django adds an 'Unknown' value to the NullBooleanSelect select widget - remove this
 	$('#id_is_complete').find('option:first').remove();
 
+	// Step through the pagination every 10 seconds
+	if ($('.pagination').length > 0) {
+		window.setTimeout(function () {
+			$current = $('.pagination').find('.current');
+			$next = $current.next();
+
+			if ($next.hasClass('disabled')) {
+				$next = $('.pagination').find('.first');
+			}
+
+			window.location = $next.find('a').attr('href');
+		}, 10000);
+	}
+
 });

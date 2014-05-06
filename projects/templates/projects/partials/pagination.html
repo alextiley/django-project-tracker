@@ -3,52 +3,52 @@
 	<ul class="pagination">
 
 		<!-- First page -->
-		{% if page.has_previous %}
-			<li>
-				<a href="{% url 'projects:list' %}?page=1{{ page.query_string }}">&#x219E;</a>
+		{% if projects.has_previous %}
+			<li class="first">
+				<a href="{% url 'projects:list' %}?page=1{{ pagination.query_string }}">&#x219E;</a>
 			</li>
 		{% else %}
-			<li class="disabled">
+			<li class="first disabled">
 				<a>&#x219E;</a>
 			</li>
 		{% endif %}
 
 		<!-- Previous page -->
-		{% if page.has_previous %}
-			<li>
-				<a href="{% url 'projects:list' %}?page={{ page.previous_page_number }}{{ page.query_string }}">&larr;</a>
+		{% if projects.has_previous %}
+			<li class="previous">
+				<a href="{% url 'projects:list' %}?page={{ projects.previous_page_number }}{{ pagination.query_string }}">&larr;</a>
 			</li>
 		{% else %}
-			<li class="disabled">
+			<li class="previous disabled">
 				<a>&larr;</a>
 			</li>
 		{% endif %}
 
 		<!-- List all pages -->
 		{% for number in pagination.display_pages %}
-			<li{% ifequal number page.number %} class="disabled"{% endifequal %}>
-				<a href="{% url 'projects:list' %}?page={{ number }}{{ page.query_string }}">{{ number }}</a>
+			<li class="page-{{ number }}{% ifequal number projects.number %} current disabled{% endifequal %}">
+				<a href="{% url 'projects:list' %}?page={{ number }}{{ pagination.query_string }}">{{ number }}</a>
 			</li>
 		{% endfor %}
 
 		<!-- Previous page -->
-		{% if page.has_next %}
-			<li>
-				<a href="{% url 'projects:list' %}?page={{ page.next_page_number }}{{ page.query_string }}">&rarr;</a>
+		{% if projects.has_next %}
+			<li class="next">
+				<a href="{% url 'projects:list' %}?page={{ projects.next_page_number }}{{ pagination.query_string }}">&rarr;</a>
 			</li>
 		{% else %}
-			<li class="disabled">
+			<li class="next disabled">
 				<a>&rarr;</a>
 			</li>
 		{% endif %}
 
 		<!-- Last page -->
-		{% if page.has_next %}
-			<li>
-				<a href="{% url 'projects:list' %}?page={{ pagination.num_pages }}{{ page.query_string }}">&#x21A0;</a>
+		{% if projects.has_next %}
+			<li class="last">
+				<a href="{% url 'projects:list' %}?page={{ pagination.num_pages }}{{ pagination.query_string }}">&#x21A0;</a>
 			</li>
 		{% else %}
-			<li class="disabled">
+			<li class="last disabled">
 				<a>&#x21A0;</a>
 			</li>
 		{% endif %}

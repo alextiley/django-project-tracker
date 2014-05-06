@@ -3,11 +3,10 @@
 	<div class="col-xs-4 date">{{ project.deployment_date|date:"l jS F, Y" }} ({{ project.deployment_time|date:"H:i" }} hours)</div>
 	<div class="col-xs-5 countdown" data-timestamp="{{ project.deployment_date.isoformat }} {{ project.deployment_time.isoformat }}">
 		{% if not project.is_complete %}
-			<span class="days"></span>
+			<span class="days">Calculating...</span>
 			<span class="hours"></span>
 			<span class="minutes"></span>
 			<span class="seconds"></span>
-			-
 		{% else %}
 			<span class="closed">Project Closed</span>
 		{% endif %}

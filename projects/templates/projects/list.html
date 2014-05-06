@@ -11,7 +11,7 @@
 	{% if projects %}
 
 		<p class="italic big-margin">Currently displaying 
-			{{ page.start_index }} - {{ page.end_index }} of 
+			{{ projects.start_index }} - {{ projects.end_index }} of 
 			{{ pagination.count }} visible project{% if pagination.count != 1 %}s{% endif %}{% if not show_all %}.{% endif %}
 			{% if show_all %}
 				({{ open_project_count }} open project{% if open_project_count != 1 %}s{% endif %} and 
@@ -42,9 +42,9 @@
 		<a href="{% url 'projects:create' %}" class="btn btn-primary">Create a New Project</a>&nbsp;
 		{% if closed_project_count > 0 %}
 			{% if show_all %}
-				<a href="{% url 'projects:list' %}?show_all=false{{ page.query_string }}" class="btn btn-default">Hide Closed Projects</a>
+				<a href="{% url 'projects:list' %}?show_all=false{{ pagination.query_string }}" class="btn btn-default">Hide Closed Projects</a>
 			{% else %}
-				<a href="{% url 'projects:list' %}?show_all=true{{ page.query_string }}" class="btn btn-default">Show Closed Projects</a>
+				<a href="{% url 'projects:list' %}?show_all=true{{ pagination.query_string }}" class="btn btn-default">Show Closed Projects</a>
 			{% endif %}
 		{% endif %}
 	</div>
