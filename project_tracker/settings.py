@@ -23,15 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'x*pv3rv#%&074z@!cw+^qxpeu8=no*e!xpp3jjjgv3d=qaegdw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
-
-# Production:
-#ALLOWED_HOSTS = ['localhost', 'webdevops.vas.agile.bte.int']
-
+ALLOWED_HOSTS = ['localhost', 'webdevops.vas.agile.bte.int']
 
 # Application definition
 
