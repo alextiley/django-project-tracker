@@ -79,15 +79,17 @@ This method decides whether to show all projects, regardless of visibility (clos
 	If show_all is in the session and show_all is in the URL, return it's value of True or False, where valid.
 	If show_all in in the session but show_all is not in the URL (or is but invalid), return the current session value of show_all.
 '''
-def get_show_all(request):
+def get_show_all(request, closed_project_count):
 	try:
 		request.session['show_all']
 	except KeyError: # By default we only wish to display open projects
 		return False
 	# If the user has a session, check request params to determine whether they want to view all projects
-	if request.GET.get('show_all') == 'true':
+	if request.GET.get('show_all') == 'true' and closed_project_count > 0:
 		return True
 	elif request.GET.get('show_all') == 'false':
+		return False
+	elif closed_project_count == 0:
 		return False
 	else:
 		return request.session['show_all']
@@ -145,7 +147,7 @@ class ListView(View):
 		closed_project_count = project_list.exclude(is_complete = False).count()
 
 		# Store show_all config in the session so the app remembers it's value when the user navigates away
-		request.session['show_all'] = get_show_all(request)
+		request.session['show_all'] = get_show_all(request, closed_project_count)
 
 		# If show_all has been set to false (default option), filter those records out
 		if request.session['show_all'] == False:
