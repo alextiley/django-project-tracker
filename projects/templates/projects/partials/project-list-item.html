@@ -1,7 +1,7 @@
 <li class="row {{ project.is_complete|yesno:'closed,open' }}-project">
 	<div class="col-xs-2 name">{{ project.name }}</div>
 	<div class="col-xs-4 date">{{ project.deployment_date|date:"l jS F, Y" }} ({{ project.deployment_time|date:"H:i" }} hours)</div>
-	<div class="col-xs-5 countdown" data-timestamp="{{ project.deployment_date.isoformat }} {{ project.deployment_time.isoformat }}">
+	<div class="col-xs-5 countdown" data-timestamp="{{ project.deployment_date|date:'m/d/Y' }} {{ project.deployment_time|date:'H:s' }}">
 		{% if not project.is_complete %}
 			<span class="days">Calculating...</span>
 			<span class="hours"></span>

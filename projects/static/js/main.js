@@ -110,7 +110,7 @@ $(function() {
 			$this = $($fields[i]);
 
 			// Get the date/time
-			iso = $this.attr('data-timestamp');
+			iso = Date.parse($this.attr('data-timestamp'));
 			future = new Date(iso).getTime();
 			
 			// Calculate how much time is remaining for the current row
